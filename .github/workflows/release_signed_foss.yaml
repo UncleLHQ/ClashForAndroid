@@ -24,17 +24,17 @@ jobs:
           # The path to the properties file.
           path: './signing.properties'
           # The property keys you want to write. Accepts an array.
-          property:
-            - 'keystore.path'
-            - 'keystore.password'
-            - 'key.alias'
-            - 'key.password'
+          property: |
+           'keystore.path'
+           'keystore.password'
+           'key.alias'
+           'key.password'
           # The property values you want to write (same order as the keys). Accepts an array.
-          value:
-            - './android.keystore'
-            - ${{ secrets.KEY_STORE_PWD }}
-            - ${{ secrets.ALIAS }}
-            - ${{ secrets.KEY_PWD }}
+          value: |
+            './android.keystore'
+            ${{ secrets.KEY_STORE_PWD }}
+            ${{ secrets.ALIAS }}
+            ${{ secrets.KEY_PWD }}
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
