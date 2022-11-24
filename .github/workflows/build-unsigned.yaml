@@ -1,36 +1,40 @@
 name: Build Unsigned
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '.github/**'
-      - '.idea/**'
-      - '.gitattributes'
-      - '.gitignore'
-      - '.gitmodules'
-      - '**.md'
-      - 'LICENSE'
-      - 'NOTICE'
-  pull_request:
-    paths-ignore:
-      - '.github/**'
-      - '.idea/**'
-      - '.gitattributes'
-      - '.gitignore'
-      - '.gitmodules'
-      - '**.md'
-      - 'LICENSE'
-      - 'NOTICE'
+  workflow_dispatch
 
 jobs:
-  BuildUnsigned:
+  BuildSigned:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
           submodules: recursive
+      - name: Write Key Store
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'android.keystore'
+          fileDir: './'
+          encodedString: ${{ secrets.SIGNING_KEY_BASE64SIGNING_KEY_BASE64 }}
+      - name: Write Properties
+        # You may pin to the exact commit or the version.
+        # uses: christian-draeger/write-properties@467558c2401828695ed5990e3895162c83980d01
+        uses: christian-draeger/write-properties@1.1.0
+        with:
+          # The path to the properties file.
+          path: './signing.properties'
+          # The property keys you want to write. Accepts an array.
+          property:
+            - 'keystore.path'
+            - 'keystore.password' =<key store password>
+            - 'key.alias' =<key alias>
+            - 'key.password' =<key password>
+          # The property values you want to write (same order as the keys). Accepts an array.
+          value:
+            - './android.keystore'
+            - ${{ secrets.KEY_STORE_PWD }}
+            - ${{ secrets.ALIAS }}
+            - ${{ secrets.KEY_PWD }}
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -52,11 +56,3 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon app:assembleFossRelease
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          # Artifact name
-          name: cfa-foss # optional, default is artifact
-          # A file, directory or wildcard pattern that describes what to upload
-          path: "app/build/outputs/apk/foss/release/"
-          # The desired behavior if no files are found using the provided path.
