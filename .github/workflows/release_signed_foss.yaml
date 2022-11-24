@@ -11,31 +11,20 @@ jobs:
         with:
           submodules: recursive
       - name: Write Key Store
-        uses: timheuer/base64-to-file@v1.2
-        id: write_file
+        uses: RollyPeres/base64-to-path@v1
         with:
-          fileName: 'android.keystore'
-#          fileDir: './'
-          encodedString: ${{ secrets.SIGNING_KEY_BASE64SIGNING_KEY_BASE64 }}
+          filePath: ${{ github.workspace }}/android.keystore
+          encodedString: ${{ secrets.SIGNING_KEY_BASE64 }}
       - name: Write Properties
-        # You may pin to the exact commit or the version.
-        # uses: christian-draeger/write-properties@467558c2401828695ed5990e3895162c83980d01
-        uses: christian-draeger/write-properties@1.1.0
+        uses: DamianReeves/write-file-action@master
         with:
-          # The path to the properties file.
-          path: './signing.properties'
-          # The property keys you want to write. Accepts an array.
-          property: |
-           'keystore.path'
-           'keystore.password'
-           'key.alias'
-           'key.password'
-          # The property values you want to write (same order as the keys). Accepts an array.
-          value: |
-            ${{ steps.write_file.outputs.filePath }}
-            ${{ secrets.KEY_STORE_PWD }}
-            ${{ secrets.ALIAS }}
-            ${{ secrets.KEY_PWD }}
+          path: ${{ github.workspace }}/signing.properties
+          contents: |
+            keystore.path=android.keystore
+            keystore.password=${{ secrets.KEY_STORE_PWD }}
+            key.alias=${{ secrets.ALIAS }}
+            key.password=${{ secrets.KEY_PWD }}
+          write-mode: append
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
