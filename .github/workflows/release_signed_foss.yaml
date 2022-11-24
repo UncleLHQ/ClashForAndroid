@@ -56,7 +56,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon app:assembleFossRelease
-      - name: Upload a Build Artifact
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
           # Artifact name
