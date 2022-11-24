@@ -12,9 +12,10 @@ jobs:
           submodules: recursive
       - name: Write Key Store
         uses: timheuer/base64-to-file@v1.2
+        id: write_file
         with:
           fileName: 'android.keystore'
-          fileDir: './'
+#          fileDir: './'
           encodedString: ${{ secrets.SIGNING_KEY_BASE64SIGNING_KEY_BASE64 }}
       - name: Write Properties
         # You may pin to the exact commit or the version.
@@ -31,7 +32,7 @@ jobs:
            'key.password'
           # The property values you want to write (same order as the keys). Accepts an array.
           value: |
-            './android.keystore'
+            ${{ steps.write_file.outputs.filePath }}
             ${{ secrets.KEY_STORE_PWD }}
             ${{ secrets.ALIAS }}
             ${{ secrets.KEY_PWD }}
