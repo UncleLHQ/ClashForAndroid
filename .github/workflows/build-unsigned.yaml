@@ -52,11 +52,3 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon app:assembleFossRelease
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          # Artifact name
-          name: cfa-foss # optional, default is artifact
-          # A file, directory or wildcard pattern that describes what to upload
-          path: "app/build/outputs/apk/foss/release/"
-          # The desired behavior if no files are found using the provided path.
