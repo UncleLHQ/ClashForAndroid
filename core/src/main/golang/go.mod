@@ -1,6 +1,6 @@
 module cfa
 
-go 1.18
+go 1.19
 
 require (
 	github.com/Dreamacro/clash v1.7.1
