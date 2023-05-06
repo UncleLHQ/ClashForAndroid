@@ -13,6 +13,7 @@ object Intents {
     val ACTION_CLASH_STARTED = "$packageName.intent.action.CLASH_STARTED"
     val ACTION_CLASH_STOPPED = "$packageName.intent.action.CLASH_STOPPED"
     val ACTION_CLASH_REQUEST_STOP = "$packageName.intent.action.CLASH_REQUEST_STOP"
+    val ACTION_CLASH_REQUEST_START = "$packageName.intent.action.CLASH_REQUEST_START"
     val ACTION_PROFILE_CHANGED = "$packageName.intent.action.PROFILE_CHANGED"
     val ACTION_PROFILE_REQUEST_UPDATE = "$packageName.intent.action.REQUEST_UPDATE"
     val ACTION_PROFILE_SCHEDULE_UPDATES = "$packageName.intent.action.SCHEDULE_UPDATES"
