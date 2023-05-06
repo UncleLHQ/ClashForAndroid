@@ -176,5 +176,17 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".SwitchServiceReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="${applicationId}.permission.RECEIVE_BROADCASTS"
+            android:process=":background">
+            <intent-filter>
+                <action android:name="${applicationId}.intent.action.CLASH_REQUEST_STOP" />
+                <action android:name="${applicationId}.intent.action.CLASH_REQUEST_START" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
